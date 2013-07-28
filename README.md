@@ -14,6 +14,11 @@ Dependancies
 * FooTweetFetcher depends on [twitteroauth.php](https://github.com/abraham/twitteroauth)
 * twitteroauth depends on [OAuth.php](http://oauth.net)
 
+Used By
+-------
+* [FooBar WordPress Plugin](http://themergency.com/foobar-wordpress-plugin/)
+* Add your project here by submitting a pull request
+
 Example Usage
 -------------
 ```php
