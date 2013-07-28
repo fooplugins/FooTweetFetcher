@@ -1,22 +1,3 @@
-FooTweetFetcher
-===============
-
-A class for WordPress to pull tweets from Twitter API v1.1
-
-Features
---------
-* Uses [Twitter API v1.1](https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline)
-* Returns easy to use array of tweet objects.
-* Tweets are cached in a WordPress transient for 5 hours (configurable).
-
-Dependancies
-------------
-* FooTweetFetcher depends on [twitteroauth.php](https://github.com/abraham/twitteroauth)
-* twitteroauth depends on [OAuth.php](http://oauth.net)
-
-Example Usage
--------------
-```php
 <?php
 
 //example_usage.php
@@ -39,9 +20,9 @@ $twitter_access_secret = 'PNquKXvpgYGcDRilrwFZtSHsUWjCOTeAJf28EM0oQ';
 //create a new instance
 $fetcher = new FooTweetFetcher($twitter_consumer_key, $twitter_consumer_secret, $twitter_access_key, $twitter_access_secret);
 $args = array(
-	'limit'            => 10,	//get 10 tweets please
-	'include_retweets' => 0,	//do not include retweets
-	'exclude_replies'  => 1		//exclude replies
+	'limit'            => 10,	 //get 10 tweets please
+	'include_rts' 	   => false, //do not include retweets
+	'exclude_replies'  => true	 //exclude replies
 );
 
 //get tweets (cached for 5 hours)
@@ -55,4 +36,3 @@ if ( $tweets !== false && is_array( $tweets ) && (count( $tweets ) > 0) ) {
 		echo $text;
 	}
 }
-```
