@@ -6,7 +6,7 @@ A class for WordPress to pull tweets from Twitter API v1.1
 Features
 --------
 * Uses [Twitter API v1.1](https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline)
-* Returns easy to use array of tweet objects.
+* Returns easy-to-use array of tweet objects.
 * Tweets are cached in a WordPress transient for 5 hours (configurable).
 
 Dependancies
