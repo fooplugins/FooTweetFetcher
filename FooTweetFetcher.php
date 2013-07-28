@@ -48,13 +48,13 @@ if ( !class_exists( FooTweetFetcher ) ) {
 			//setup params
 			$params                = array();
 			$params['screen_name'] = strip_tags( sanitize_user( $username ) );
-			if ( !empty($args['limit']) ) {
+			if ( array_key_exists('limit', $args) ) {
 				$params['count'] = intval( $args['limit'] );
 			}
-			if ( !empty($args['include_rts']) ) {
+			if ( array_key_exists('include_rts', $args) ) {
 				$params['include_rts'] = $args['include_rts'];
 			}
-			if ( !empty($args['exclude_replies']) ) {
+			if ( array_key_exists('exclude_replies', $args) ) {
 				$params['exclude_replies'] = $args['exclude_replies'];
 			}
 
