@@ -45,13 +45,13 @@ $args = array(
 );
 
 //get tweets (cached for 5 hours)
-$tweets = fetcher->get_tweets( $meta["twitterUser"], $args );
+$tweets = $fetcher->get_tweets( $meta["twitterUser"], $args );
 
 if ( $tweets !== false && is_array( $tweets ) && (count( $tweets ) > 0) ) {
 	//loop through each tweet
 	foreach ( $tweets as $tweet ) {
 		//convert all URLs, mentions, hashtags, media to clickable links
-		$text = fetcher->make_clickable( $tweet );
+		$text = $fetcher->make_clickable( $tweet );
 		echo $text;
 	}
 }
