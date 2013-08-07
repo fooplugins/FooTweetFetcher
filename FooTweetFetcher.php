@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists( FooTweetFetcher ) ) {
+if ( !class_exists( 'FooTweetFetcher' ) ) {
 
 	class FooTweetFetcher {
 
@@ -13,11 +13,12 @@ if ( !class_exists( FooTweetFetcher ) ) {
 		protected $error = false;
 		protected $transient_expires = 18000; // 5 hours
 
-		function __construct($consumer_key, $consumer_secret, $access_key, $access_secret) {
-			$this->consumer_key    = $consumer_key;
-			$this->consumer_secret = $consumer_secret;
-			$this->access_key      = $access_key;
-			$this->access_secret   = $access_secret;
+		function __construct($consumer_key, $consumer_secret, $access_key, $access_secret, $transient_expires = 18000) {
+			$this->consumer_key      = $consumer_key;
+			$this->consumer_secret   = $consumer_secret;
+			$this->access_key        = $access_key;
+			$this->access_secret     = $access_secret;
+			$this->transient_expires = $transient_expires;
 		}
 
 		public function get_tweets($username, $args) {
