@@ -26,7 +26,7 @@ $args = array(
 );
 
 //get tweets (cached for 5 hours)
-$tweets = $fetcher->get_tweets( $meta["twitterUser"], $args );
+$tweets = $fetcher->get_tweets( 'YOUR_TWITTER_NAME_HERE', $args );
 
 if ( $tweets !== false && is_array( $tweets ) && (count( $tweets ) > 0) ) {
 	//loop through each tweet
