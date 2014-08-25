@@ -1,0 +1,13 @@
+{
+    "name": "fooplugins/footweetfetcher",
+    "description": "Provides a plugin wrapper around the Twitter API for easy use by other plugins or themes",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Foo Plugins",
+            "email": "fooplugins@example.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
