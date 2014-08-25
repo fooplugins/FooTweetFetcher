@@ -2,6 +2,9 @@
 
 if ( !class_exists( 'FooTweetFetcher' ) ) {
 
+	if ( ! class_exists('TwitterOAuth') )
+		require_once 'twitteroauth.php';
+
 	class FooTweetFetcher {
 
 		//needed for Twitter OAuth V1.1
@@ -13,7 +16,7 @@ if ( !class_exists( 'FooTweetFetcher' ) ) {
 		protected $error = false;
 		protected $transient_expires = 18000; // 5 hours
 
-		function __construct($consumer_key, $consumer_secret, $access_key, $access_secret, $transient_expires = 18000) {
+		function __construct( $consumer_key = '', $consumer_secret = '', $access_key = '', $access_secret = '', $transient_expires = 18000 ) {
 			global $WP_Twitter_API;
 
 			$this->consumer_key      = $WP_Twitter_API->get_setting('consumer_key', 'string', $consumer_key );
@@ -29,7 +32,10 @@ if ( !class_exists( 'FooTweetFetcher' ) ) {
 
 			if ( ($data = get_transient( $transient_key )) === false ) {
 				//transient has expired - fetch fresh tweets
-				$data = $this->get_tweets_from_api( $username, $args );
+				$args = array(
+					'username' => $username,
+				);
+				$data = $this->get_tweets_from_api( 'statuses/user_timeline', $args );
 
 				if ( $data !== false ) {
 					set_transient( $transient_key, $data, $this->transient_expires );
@@ -39,8 +45,35 @@ if ( !class_exists( 'FooTweetFetcher' ) ) {
 			return $data;
 		}
 
-		private function get_tweets_from_api($username, $args) {
-			if ( !class_exists( 'TwitterOAuth' ) ) {
+		public function get_search( $term, $args ) {
+
+			$transient_key = sanitize_title( $term ) . '-tweets';
+
+			if ( ( $data = get_transient( ($transient_key ) ) ) === false ) {
+
+				// Get the last tweet ID we retrieved
+				if ( ! $since = get_option( sanitize_title( $term ) . '-since' ) )
+					$since = 0;
+
+				// cache has expired, get fresh tweets
+				$args = array(
+					'q' => $term,
+					'since_id' => $since,
+				);
+				$data = $this->get_tweets_from_api( 'search/tweets', $args );
+
+				// Set the cache
+				if ( $data !== false )
+					set_transient( $transient_key, $data, $this->transient_expires );
+			}
+
+			return $data;
+
+		}
+
+		private function get_tweets_from_api( $endpoint, $args ) {
+			error_log('get tweets');
+			if ( ! class_exists( 'TwitterOAuth' ) ) {
 				//you need to reference the TwitterOAuth class for this to work
 				$this->error = 'The TwitterOAuth class cannot be found. Please include twitteroauth.php!';
 
@@ -49,20 +82,40 @@ if ( !class_exists( 'FooTweetFetcher' ) ) {
 
 			$twitter_oauth = new TwitterOAuth($this->consumer_key, $this->consumer_secret, $this->access_key, $this->access_secret);
 
-			//setup params
-			$params                = array();
-			$params['screen_name'] = strip_tags( sanitize_user( $username ) );
-			if ( array_key_exists('limit', $args) ) {
-				$params['count'] = intval( $args['limit'] );
-			}
-			if ( array_key_exists('include_rts', $args) ) {
-				$params['include_rts'] = $args['include_rts'];
-			}
-			if ( array_key_exists('exclude_replies', $args) ) {
-				$params['exclude_replies'] = $args['exclude_replies'];
+			// setup params
+			$params = array();
+
+			// Set up params depending on which endpoint we're accessing
+			switch ( $endpoint ) {
+
+				case "statuses/user_timeline":
+
+					// Add the sanitised username
+					$params['screen_name'] = strip_tags( sanitize_user( $args['username'] ) );
+
+					// Cater for over-riding default args
+					// @todo replace these IFs with array_merge
+					if ( array_key_exists( 'limit', $args ) ) {
+						$params['count'] = intval( $args['limit'] );
+					}
+					if ( array_key_exists( 'include_rts', $args ) ) {
+						$params['include_rts'] = $args['include_rts'];
+					}
+					if ( array_key_exists( 'exclude_replies', $args ) ) {
+						$params['exclude_replies'] = $args['exclude_replies'];
+					}
+
+					break;
+
+				case "search/tweets":
+
+					$params['q'] = esc_html( $args['q'] );
+
+					break;
+
 			}
 
-			$response = $twitter_oauth->get( 'statuses/user_timeline', $params );
+			$response = $twitter_oauth->get( $endpoint, $params );
 
 			if ( is_wp_error( $response ) ) {
 				$this->error = $response->get_error_message();
