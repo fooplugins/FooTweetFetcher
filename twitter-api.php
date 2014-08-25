@@ -2,9 +2,11 @@
 /*
  * Plugin Name: Twitter API
  * Description: Provides a plugin wrapper around the Twitter API for easy use by other plugins or themes
+ * Version: 0.1
  * Author: FooPlugins/Philip John
  * Author URI: https://github.com/fooplugins</a>, <a href="http://philipjohn.me.uk">Philip John
  * License: GPLv2
+ * Provides: lib-twitter-api
  */
 
 // Don't be a moron
