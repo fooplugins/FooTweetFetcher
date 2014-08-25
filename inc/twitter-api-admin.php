@@ -10,7 +10,7 @@ global $WP_Twitter_API; // we'll need this below
 			<tbody>
 			<tr>
 				<th scope="row" valign="top">
-					<label for="<?php echo $WP_Twitter_API->get_field_name('consumer_key'); ?>"><?php _e('Consumer key'); ?></label>
+					<label for="<?php echo $WP_Twitter_API->get_field_name('consumer_key'); ?>"><?php _e('API key'); ?></label>
 				</th>
 				<td>
 					<input type="text"
@@ -22,7 +22,7 @@ global $WP_Twitter_API; // we'll need this below
 			</tr>
 			<tr>
 				<th scope="row" valign="top">
-					<label for="<?php echo $WP_Twitter_API->get_field_name('consumer_secret'); ?>"><?php _e('Consumer secret'); ?></label>
+					<label for="<?php echo $WP_Twitter_API->get_field_name('consumer_secret'); ?>"><?php _e('API secret'); ?></label>
 				</th>
 				<td>
 					<input type="text"
@@ -34,7 +34,7 @@ global $WP_Twitter_API; // we'll need this below
 			</tr>
 			<tr>
 				<th scope="row" valign="top">
-					<label for="<?php echo $WP_Twitter_API->get_field_name('access_key'); ?>"><?php _e('Access key'); ?></label>
+					<label for="<?php echo $WP_Twitter_API->get_field_name('access_key'); ?>"><?php _e('Access token'); ?></label>
 				</th>
 				<td>
 					<input type="text"
@@ -46,7 +46,7 @@ global $WP_Twitter_API; // we'll need this below
 			</tr>
 			<tr>
 				<th scope="row" valign="top">
-					<label for="<?php echo $WP_Twitter_API->get_field_name('access_secret'); ?>"><?php _e('Access secret'); ?></label>
+					<label for="<?php echo $WP_Twitter_API->get_field_name('access_secret'); ?>"><?php _e('Access token secret'); ?></label>
 				</th>
 				<td>
 					<input type="text"
