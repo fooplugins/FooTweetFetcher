@@ -180,5 +180,25 @@ if ( !class_exists( 'FooTweetFetcher' ) ) {
 			}
 			return strlen( $str );
 		}
+
+		/**
+		 * Converts a tweet time into a WordPress-compatible time format.
+		 *
+		 * Twitter gives us something like Mon Sep 24 03:35:21 +0000 2012 but WordPress (for posts etc) wants
+		 * the format 'Y-m-d H:i:s' so this function converts it for us
+		 *
+		 * @param $time string The time returned by Twitter
+		 *
+		 * @return string A WP-compatible time string
+		 */
+		public function get_wp_time( $time ) {
+
+			$wp_timestamp = strtotime( $time );
+
+			$wp_time = date_i18n( 'Y-m-d H:i:s', $wp_timestamp );
+
+			return $wp_time;
+
+		}
 	}
 }
