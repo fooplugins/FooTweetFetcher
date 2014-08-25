@@ -14,11 +14,14 @@ if ( !class_exists( 'FooTweetFetcher' ) ) {
 		protected $transient_expires = 18000; // 5 hours
 
 		function __construct($consumer_key, $consumer_secret, $access_key, $access_secret, $transient_expires = 18000) {
-			$this->consumer_key      = $WP_Twitter_API->get_setting('consumer_key');
-			$this->consumer_secret   = $WP_Twitter_API->get_setting('consumer_secret');
-			$this->access_key        = $WP_Twitter_API->get_setting('access_key');
-			$this->access_secret     = $WP_Twitter_API->get_setting('access_secret');
-			$this->transient_expires = $WP_Twitter_API->get_setting('transient_expires');
+			global $WP_Twitter_API;
+
+			$this->consumer_key      = $WP_Twitter_API->get_setting('consumer_key', 'string', $consumer_key );
+			$this->consumer_secret   = $WP_Twitter_API->get_setting('consumer_secret', 'string', $consumer_secret );
+			$this->access_key        = $WP_Twitter_API->get_setting('access_key', 'string', $access_key );
+			$this->access_secret     = $WP_Twitter_API->get_setting('access_secret', 'string', $access_secret );
+			$this->transient_expires = $WP_Twitter_API->get_setting('transient_expires', 'string', $transient_expires );
+
 		}
 
 		public function get_tweets($username, $args) {

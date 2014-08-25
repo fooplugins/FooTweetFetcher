@@ -14,16 +14,16 @@ defined('ABSPATH') or die("Naughty naughty");
 // with our main plugin class
 require_once 'inc/wordpress-simple-settings.php';
 
+// Make sure the FooTweetFetcher class is there and grab it.
+if ( file_exists( plugin_dir_path(__FILE__) . 'inc/class.FooTweetFetcher.php' ) )
+	require_once 'inc/class.FooTweetFetcher.php';
+
 Class WP_Twitter_API extends WordPress_SimpleSettings {
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-
-		// Make sure the FooTweetFetcher class is there and grab it.
-		if ( file_exists( 'inc/class.FooTweetFetcher.php' ) )
-			require_once 'inc/class.FooTweetFetcher.php';
 
 		// Load up the SimpleSettings Class stuff
 		parent::__construct();
@@ -49,6 +49,17 @@ Class WP_Twitter_API extends WordPress_SimpleSettings {
 		$this->add_setting('access_key');
 		$this->add_setting('access_secret');
 		$this->add_setting('transient_expires', 3600);
+
+	}
+
+	public function get_setting( $setting = false, $type = 'string', $default = false ) {
+
+		$result = parent::get_setting( $setting, $type );
+
+		if ( empty( $result ) || $result == false )
+			return $default;
+
+		return $result;
 
 	}
 
